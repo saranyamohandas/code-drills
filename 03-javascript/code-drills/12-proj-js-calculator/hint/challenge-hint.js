@@ -1,7 +1,10 @@
 // declare a variable to store the user input and set it to an empty array for now
+        var getUserInp = [];
 
 
 // create a string of all the valid inputs for our validation logic to check against
+        var validInp = "1234567890*+-/=c";
+        var operators = "+*-/";
 
 
 
@@ -16,9 +19,26 @@
 
   // declare 3 variables, one for the first number, one for the second, and one for the operator
   // set the variables for the numbers to be an empty string for now
-
+            var firstNum = "";
+            var secNum = "";
+            var operator;
 
   // iterate through the array from the argument
+            function checkInp(getUserInp){
+                
+                    for(i=0;i<getUserInp.length;i++){
+                        if(operator){
+                            secNum = secNum + getUserInp[i];
+                        
+                    } else if(getUserInp[i] == "*" || getUserInp[i] == "+" || getUserInp[i] == "-" || getUserInp[i] == "/" ){
+                        operator = getUserInp[i];
+                    }
+                        else {
+                        firstNum = firstNum + getUserInp[i];
+                    }
+                    
+                }
+            
 
 
     // if the operator is already defined
@@ -49,10 +69,21 @@
   
   // after we've iterated through the array, parse the first and 
   // second numbers into integers from strings
-
+   firstNum = parseInt(firstNum);
+   secNum = parseInt(secNum);
 
   // then, check if the operator is a '+' sign
-
+        if(operator === "+"){
+            return(firstNum + secNum);
+        } else if(operator === "-"){
+            return(firstNum-secNum);
+        } else if (operator === "*"){
+            return(firstNum-secNum);
+        } else {
+            return(firstNum/secNum);
+        }
+                
+    }
 
     // if the operator is a '+' sign, return the value of the first number added to the second number
     
@@ -85,7 +116,34 @@
 
 
   // check to make sure the user pressed a valid button (check the input against the array we made)
-
+        document.onkeyup = function(event){
+            
+            var getKey = event.key;
+            console.log(/validInp/.test(String(getKey)));
+        if(validInp.includes(getKey)) {
+            
+        
+            if(getKey == "c"){
+               getUserInp = [];
+               document.getElementById("user-result").innerHTML = "";
+               } else if(getKey == "="){
+                checkInp(getKey);
+                document.getElementById("user-result").innerHTML =getKey;
+            } else if (operator.includes(getKey)){
+                
+                if(getUserInp["*"] != -1 || getUserInp["+"] != -1 || getUserInp["-"]  != -1|| getUserInp["/"] != -1){
+                   document.getElementById("user-result").innerHTML = "You have entered an operator aleady!" 
+                } else {
+                    checkInp(getKey);
+                }
+            } else {
+                checkInp(getKey);
+            }
+    
+        } else {
+            document.getElementById("user-result").innerHTML = "Please enter a valid key!" 
+        }
+        }
 
     // if the input was valid, check if it was the letter 'c'
 
@@ -126,5 +184,6 @@
 
   // finally, outside the 'if-else' statement, set the textContent of the user expression div
   // to be our expression array
+        document.getElementById("user-exp").innerHTML = getUserInp;
 
   
